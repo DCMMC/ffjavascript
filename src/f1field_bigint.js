@@ -58,6 +58,10 @@ module.exports = class ZqField {
 
     }
 
+    // toObject(a) {
+    //     return Scalar.fromRprLE(a, 0);
+    // }
+
     add(a, b) {
         let res = a.add(b);
         if (res.geq(this.p)) {

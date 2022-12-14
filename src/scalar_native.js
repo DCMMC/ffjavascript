@@ -2,9 +2,23 @@
 const assert = require("assert");
 const hexLen = [ 0, 1, 2, 2, 3, 3, 3, 3, 4 ,4 ,4 ,4 ,4 ,4 ,4 ,4];
 
+// Pases a buffer with Little Endian Representation
+module.exports.fromRprLE = function fromRprLE(buff, o, n8) {
+    n8 = n8 || buff.byteLength;
+    o = o || 0;
+    const v = new Uint32Array(buff.buffer, o, n8/4);
+    const a = new Array(n8/4);
+    v.forEach( (ch,i) => a[a.length-i-1] = ch.toString(16).padStart(8,"0") );
+    return module.exports.fromString(a.join(""), 16);
+}
+
 module.exports.fromString = function fromString(s, radix) {
     if ((!radix)||(radix==10)) {
+      try {
         return BigInt(s);
+      } catch(e) {
+        return module.exports.fromRprLE(s, 0);
+      }
     } else if (radix==16) {
         if (s.slice(0,2) == "0x") {
             return BigInt(s);

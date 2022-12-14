@@ -13,4 +13,9 @@ exports.bn128 = require("./src/bn128.js");
 
 exports.utils = require("./src/utils");
 
-
+exports.getCurveFromName = function getCurveFromName(name) {
+  if (name == "bn128") {
+    return exports.bn128;
+  }
+  throw new Error(`Curve not supported: ${name}`);
+}

@@ -13,6 +13,16 @@ module.exports.fromString = function fromString(s, radix) {
     }
 };
 
+// Pases a buffer with Little Endian Representation
+module.exports.fromRprLE = function fromRprLE(buff, o, n8) {
+    n8 = n8 || buff.byteLength;
+    o = o || 0;
+    const v = new Uint32Array(buff.buffer, o, n8/4);
+    const a = new Array(n8/4);
+    v.forEach( (ch,i) => a[a.length-i-1] = ch.toString(16).padStart(8,"0") );
+    return fromString(a.join(""), 16);
+}
+
 module.exports.e = module.exports.fromString;
 
 module.exports.fromArray = function fromArray(a, radix) {
